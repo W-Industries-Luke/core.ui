@@ -1,0 +1,42 @@
+.core-btn {
+  border: 1px solid transparent;
+  border-radius: var(--core-radius-sm, 6px);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  transition: filter 0.15s ease;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  &.md {
+    padding: 0.55rem 1.1rem;
+  }
+
+  &.sm {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  &.primary {
+    background: var(--core-color-primary, #2563eb);
+    color: var(--core-color-primary-contrast, #fff);
+  }
+
+  &.secondary {
+    background: var(--core-color-surface, #fff);
+    border-color: var(--core-color-border, #cbd5e1);
+    color: var(--core-color-text, #1e293b);
+  }
+
+  &.danger {
+    background: var(--core-color-danger, #dc2626);
+    color: var(--core-color-danger-contrast, #fff);
+  }
+}

@@ -1,0 +1,18 @@
+.core-card {
+  background: var(--core-color-surface, #fff);
+  border: 1px solid var(--core-color-border-subtle, #e2e8f0);
+  border-radius: var(--core-radius-md, 10px);
+  box-shadow: var(--core-shadow-sm, 0 1px 2px rgb(15 23 42 / 0.06));
+  overflow: hidden;
+}
+
+.core-card-header {
+  border-bottom: 1px solid var(--core-color-border-subtle, #e2e8f0);
+  color: var(--core-color-text, #0f172a);
+  font-weight: 700;
+  padding: 0.8rem 1.1rem;
+}
+
+.core-card-body {
+  padding: 1.1rem;
+}
