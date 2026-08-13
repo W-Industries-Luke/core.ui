@@ -1,0 +1,18 @@
+/* TypeScript config for the Storybook build: the library sources plus the
+   stories and Storybook config files (which the library build excludes). */
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "../projects/ui/src/**/*.ts",
+    "./*.ts"
+  ],
+  "exclude": [
+    "../projects/ui/src/**/*.spec.ts"
+  ]
+}

@@ -1,0 +1,53 @@
+// Canvas styling for the Storybook preview iframe. Everything here reads from
+// the core-themes custom properties, so the canvas itself is a live check that
+// the theme is loaded and that the light/dark toggle actually swaps tokens.
+
+body {
+  margin: 0;
+  padding: 1rem;
+  background: var(--core-color-background);
+  color: var(--core-color-text);
+  font-family: var(--core-font-family);
+}
+
+// Shared layout helpers for the gallery stories.
+.sb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.sb-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sb-label {
+  color: var(--core-color-text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+// Side-by-side scheme comparison. Each half carries its own `core-theme-*`
+// class; the classes rebind tokens but do not paint, so the panels set their
+// own surface from the tokens they just scoped.
+.sb-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.sb-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--core-color-border);
+  border-radius: var(--core-radius-md);
+  background: var(--core-color-background);
+  color: var(--core-color-text);
+}
