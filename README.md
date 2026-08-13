@@ -23,6 +23,34 @@ import { ButtonComponent, CardComponent, InitialsPipe } from '@w-industries-luke
 @Component({ imports: [ButtonComponent, CardComponent, InitialsPipe], ... })
 ```
 
+## Storybook
+
+The design-system showcase: every component, directive, and pipe, plus a **Design
+Tokens** section covering all of `@w-industries-luke/core-themes`.
+
+```bash
+npm run storybook        # dev server on http://localhost:6008
+npm run build-storybook  # static build -> storybook-static/
+```
+
+Use the **Theme** control in the toolbar to switch between the light and dark
+scales. Two things worth knowing:
+
+- The token pages read their values with `getComputedStyle` off the live
+  stylesheet rather than restating them, so they cannot drift from `core-themes`.
+- The theme is applied by toggling `core-theme-dark` / `core-theme-light` on the
+  preview's `<html>`. `core-themes` defines its tokens at `:root` only, so a
+  scheme cannot be applied to a subtree — which is also why there is no
+  side-by-side light/dark view.
+
+The theme is wired in as a `file:../core-themes` devDependency (the same
+sibling-link convention `inventory-read` uses for `auth-core`), so a checkout
+needs `core.themes` cloned alongside this repo. It is a dev-only dependency:
+the components ship token fallbacks and render without a theme loaded.
+
+Stories live in `projects/ui/src/stories/`, deliberately outside `src/lib/` so
+they stay out of the published package and out of the 100%-coverage gate.
+
 ## Development
 
 ```bash

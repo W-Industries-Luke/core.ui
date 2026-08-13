@@ -1,0 +1,47 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Core design system
+
+The shared front-end foundation for the workspace apps: design tokens in
+`@w-industries-luke/core-themes`, and the Angular components that consume them in
+`@w-industries-luke/core-ui`.
+
+## What is in here
+
+- **Design Tokens** — every `--core-*` custom property, rendered from the *computed*
+  values of the loaded stylesheet. Nothing on that page is hand-copied, so it cannot
+  drift from `core-themes`.
+- **Components** — `<core-button>` and `<core-card>`.
+- **Directives** — `[coreAutofocus]`.
+- **Pipes** — `coreInitials`, `coreTruncate`.
+
+## Light and dark
+
+`core-themes` emits light tokens at `:root`, applies dark automatically under
+`prefers-color-scheme: dark`, and lets a page force a scheme with
+`core-theme-dark` / `core-theme-light` on the `<html>` element. The **Theme** control
+in the toolbar drives that last mechanism.
+
+Note that the scheme can only be switched at the document root — the theme mixin
+targets `:root`, so putting `core-theme-dark` on a wrapper element does nothing.
+Light and dark cannot be shown side by side on one page for that reason.
+
+## Using it in an app
+
+```json
+"styles": [
+  "node_modules/@w-industries-luke/core-themes/css/core.css",
+  "src/styles.scss"
+]
+```
+
+```ts
+import { ButtonComponent, CardComponent } from '@w-industries-luke/core-ui';
+
+@Component({ imports: [ButtonComponent, CardComponent] })
+```
+
+Components ship fallback values for every token they read, so they render correctly
+even when no theme stylesheet is loaded.

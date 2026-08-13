@@ -23,6 +23,34 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "tsConfig": ".storybook/tsconfig.json",
+            "styles": [
+              "node_modules/@w-industries-luke/core-themes/css/core.css",
+              ".storybook/preview.scss"
+            ],
+            "compodoc": true,
+            "compodocArgs": ["-e", "json", "-d", ".", "-p", "projects/ui/tsconfig.lib.json"],
+            "port": 6008
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "tsConfig": ".storybook/tsconfig.json",
+            "styles": [
+              "node_modules/@w-industries-luke/core-themes/css/core.css",
+              ".storybook/preview.scss"
+            ],
+            "compodoc": true,
+            "compodocArgs": ["-e", "json", "-d", ".", "-p", "projects/ui/tsconfig.lib.json"],
+            "outputDir": "storybook-static"
+          }
         }
       }
     }
