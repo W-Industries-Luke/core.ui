@@ -39,9 +39,8 @@ scales. Two things worth knowing:
 - The token pages read their values with `getComputedStyle` off the live
   stylesheet rather than restating them, so they cannot drift from `core-themes`.
 - The theme is applied by toggling `core-theme-dark` / `core-theme-light` on the
-  preview's `<html>`. `core-themes` defines its tokens at `:root` only, so a
-  scheme cannot be applied to a subtree — which is also why there is no
-  side-by-side light/dark view.
+  preview's `<html>`. Those classes also work on any element, so the
+  **Light Vs Dark** story scopes a class per panel to show both scales at once.
 
 The theme is wired in as a `file:../core-themes` devDependency (the same
 sibling-link convention `inventory-read` uses for `auth-core`), so a checkout

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { TokenGalleryComponent } from './token-gallery.component';
 
 /**
@@ -28,6 +28,7 @@ const COLOR_TOKENS = [
 const meta: Meta<TokenGalleryComponent> = {
   title: 'Design Tokens/Overview',
   component: TokenGalleryComponent,
+  decorators: [moduleMetadata({ imports: [TokenGalleryComponent] })],
   parameters: {
     docs: {
       description: {
@@ -60,4 +61,28 @@ export const Shadow: Story = {
 /** The base font stack. */
 export const Typography: Story = {
   args: { tokens: ['font-family'], preview: 'font' },
+};
+
+/**
+ * Both scales at once, using `core-themes`' scoped theming: each panel carries
+ * its own `core-theme-*` class, so the gallery inside it reports that scope's
+ * values rather than the document's. Unaffected by the Theme toolbar.
+ */
+export const LightVsDark: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    props: { tokens: [...COLOR_TOKENS] },
+    template: `
+      <div class="sb-split">
+        <div class="sb-scope core-theme-light">
+          <div class="sb-label">core-theme-light</div>
+          <core-token-gallery [tokens]="tokens" preview="color" />
+        </div>
+        <div class="sb-scope core-theme-dark">
+          <div class="sb-label">core-theme-dark</div>
+          <core-token-gallery [tokens]="tokens" preview="color" />
+        </div>
+      </div>
+    `,
+  }),
 };

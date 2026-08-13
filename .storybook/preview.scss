@@ -30,3 +30,24 @@ body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
+// Side-by-side scheme comparison. Each half carries its own `core-theme-*`
+// class; the classes rebind tokens but do not paint, so the panels set their
+// own surface from the tokens they just scoped.
+.sb-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.sb-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--core-color-border);
+  border-radius: var(--core-radius-md);
+  background: var(--core-color-background);
+  color: var(--core-color-text);
+}

@@ -21,12 +21,15 @@ The shared front-end foundation for the workspace apps: design tokens in
 
 `core-themes` emits light tokens at `:root`, applies dark automatically under
 `prefers-color-scheme: dark`, and lets a page force a scheme with
-`core-theme-dark` / `core-theme-light` on the `<html>` element. The **Theme** control
-in the toolbar drives that last mechanism.
+`core-theme-dark` / `core-theme-light`. The **Theme** control in the toolbar drives
+that last mechanism, by toggling the class on the preview's `<html>`.
 
-Note that the scheme can only be switched at the document root — the theme mixin
-targets `:root`, so putting `core-theme-dark` on a wrapper element does nothing.
-Light and dark cannot be shown side by side on one page for that reason.
+Those classes are not anchored to `:root`, so they work on any element: put one on
+a wrapper and its whole subtree picks up that scheme, and scopes can nest. The
+**Design Tokens → Light Vs Dark** story uses exactly that to show both scales at once.
+
+The classes rebind tokens but do not paint — give a scope its own
+`background: var(--core-color-background)` if it should look themed.
 
 ## Using it in an app
 

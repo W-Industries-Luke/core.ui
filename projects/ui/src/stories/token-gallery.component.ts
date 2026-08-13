@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  ElementRef,
   afterNextRender,
   inject,
   input,
@@ -104,6 +105,8 @@ export class TokenGalleryComponent {
 
   protected readonly values = signal<Record<string, string>>({});
 
+  private readonly host = inject(ElementRef).nativeElement as HTMLElement;
+
   constructor() {
     const destroyRef = inject(DestroyRef);
 
@@ -135,7 +138,9 @@ export class TokenGalleryComponent {
   }
 
   private read(): void {
-    const computed = getComputedStyle(document.documentElement);
+    // Read from the host, not the document root, so a gallery inside a
+    // `core-theme-*` scope reports that scope's values.
+    const computed = getComputedStyle(this.host);
     const next: Record<string, string> = {};
     for (const token of this.tokens()) {
       next[token] = computed.getPropertyValue(`--core-${token}`).trim();
