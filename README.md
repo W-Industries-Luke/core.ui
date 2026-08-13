@@ -28,6 +28,10 @@ import { ButtonComponent, CardComponent, InitialsPipe } from '@w-industries-luke
 The design-system showcase: every component, directive, and pipe, plus a **Design
 Tokens** section covering all of `@w-industries-luke/core-themes`.
 
+Published to **https://w-industries-luke.github.io/core.ui/** by the `Storybook`
+workflow on every push to `master`. Note the site is public even though this
+repository is private — don't put anything internal in a story.
+
 ```bash
 npm run storybook        # dev server on http://localhost:6008
 npm run build-storybook  # static build -> storybook-static/
@@ -42,10 +46,10 @@ scales. Two things worth knowing:
   preview's `<html>`. Those classes also work on any element, so the
   **Light Vs Dark** story scopes a class per panel to show both scales at once.
 
-The theme is wired in as a `file:../core-themes` devDependency (the same
-sibling-link convention `inventory-read` uses for `auth-core`), so a checkout
-needs `core.themes` cloned alongside this repo. It is a dev-only dependency:
-the components ship token fallbacks and render without a theme loaded.
+The theme is a dev-only dependency on the published
+`@w-industries-luke/core-themes` package, so a checkout is self-contained (which
+is what lets CI build it). Installing needs a GitHub Packages token — see
+`.npmrc`. The components ship token fallbacks and render without a theme loaded.
 
 Stories live in `projects/ui/src/stories/`, deliberately outside `src/lib/` so
 they stay out of the published package and out of the 100%-coverage gate.

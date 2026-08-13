@@ -32,7 +32,7 @@
     "@storybook/addon-docs": "^10.5.7",
     "@storybook/angular": "^10.5.7",
     "@types/jest": "^30.0.0",
-    "@w-industries-luke/core-themes": "file:../core-themes",
+    "@w-industries-luke/core-themes": "^1.0.0",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "jest-preset-angular": "^17.0.0",
