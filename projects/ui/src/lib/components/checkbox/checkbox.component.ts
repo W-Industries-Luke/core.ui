@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
-import { CoreControl } from '../../forms/core-control';
+import { CoreControl, FloatBehavior } from '../../forms/core-control';
 import { FormControlBase } from '../../forms/form-control-base';
 
 /**
@@ -22,7 +22,8 @@ import { FormControlBase } from '../../forms/form-control-base';
         [attr.aria-invalid]="showError() ? 'true' : null"
         [attr.aria-describedby]="describedBy()"
         (change)="onToggle($event)"
-        (blur)="markTouched()"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
       />
       <span>{{ label() }}</span>
     </label>
@@ -31,6 +32,11 @@ import { FormControlBase } from '../../forms/form-control-base';
 })
 export class CheckboxComponent extends FormControlBase<boolean> {
   readonly label = input('');
+
+  /** The checkbox labels itself beside the box. */
+  protected override floatMode(): FloatBehavior {
+    return 'never';
+  }
 
   protected onToggle(event: Event): void {
     this.setValue((event.target as HTMLInputElement).checked);

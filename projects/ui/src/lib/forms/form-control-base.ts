@@ -1,7 +1,7 @@
 import { DestroyRef, Directive, OnInit, computed, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
-import { CORE_ERROR_MESSAGES, CoreControl } from './core-control';
+import { CORE_ERROR_MESSAGES, CoreControl, FloatBehavior } from './core-control';
 
 let nextUniqueId = 0;
 
@@ -41,6 +41,23 @@ export abstract class FormControlBase<T>
   protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
 
   readonly describedBy = signal<string | null>(null);
+  readonly focused = signal(false);
+  readonly floating = signal(false);
+
+  readonly hasValue = computed(() => {
+    const value = this.value();
+    return value !== null && value !== undefined && value !== '';
+  });
+
+  readonly floatBehavior = computed(() => this.floatMode());
+
+  /**
+   * Overridden by controls whose element renders content of its own, or that
+   * carry their own label. See {@link FloatBehavior}.
+   */
+  protected floatMode(): FloatBehavior {
+    return 'auto';
+  }
 
   /**
    * Bumped on every control event. Reading it inside the state computeds makes
@@ -124,5 +141,14 @@ export abstract class FormControlBase<T>
   /** Marks the control touched — call from the element's `blur`. */
   protected markTouched(): void {
     this.onTouched();
+  }
+
+  protected onFocus(): void {
+    this.focused.set(true);
+  }
+
+  protected onBlur(): void {
+    this.focused.set(false);
+    this.markTouched();
   }
 }

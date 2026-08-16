@@ -45,6 +45,30 @@ The wrapper reads the bound control's own validation state — the required mark
 follows `Validators.required`, and the error appears once the control is invalid
 *and* touched. Set `error` to show a server-side message instead.
 
+### Floating labels
+
+`appearance="float"` rests the label inside the control and lifts it to the top
+edge on focus or once there is a value:
+
+```html
+<core-form-field label="Email" appearance="float">
+  <core-input type="email" formControlName="email" />
+</core-form-field>
+```
+
+It is driven by the control's own `focused`/`hasValue` signals rather than the
+usual `:placeholder-shown` CSS trick, which cannot see a `<select>` (never
+"placeholder shown") or a `type="date"` (always rendering a format mask). Each
+control declares how it behaves via `floatBehavior`:
+
+| Behavior | Controls | Label |
+| --- | --- | --- |
+| `auto` | input (except date), textarea | rests inside, floats on focus/value |
+| `always` | select, `type="date"` | stays floated — the element always shows content |
+| `never` | checkbox, radio group | stays stacked; they carry their own labels |
+
+`stacked` remains the default, so existing fields are unaffected.
+
 Error text comes from `CORE_ERROR_MESSAGES`, a map of validation-error key to
 message. Re-provide it to reword or extend:
 

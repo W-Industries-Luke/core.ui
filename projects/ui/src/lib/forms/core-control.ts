@@ -19,7 +19,27 @@ export abstract class CoreControl {
   abstract readonly errorText: Signal<string | null>;
   /** Set by the wrapper with the ids of the hint/error it renders. */
   abstract readonly describedBy: WritableSignal<string | null>;
+  /** Whether the control holds a value — a resting label would be covered. */
+  abstract readonly hasValue: Signal<boolean>;
+  /** Whether the control's element currently has focus. */
+  abstract readonly focused: Signal<boolean>;
+  /** How a floating label should behave over this control. */
+  abstract readonly floatBehavior: Signal<FloatBehavior>;
+  /** Set by the wrapper when it floats a label, so the control makes room. */
+  abstract readonly floating: WritableSignal<boolean>;
 }
+
+/**
+ * How a control handles a floating label.
+ *
+ * - `auto` — the label rests inside the control and floats on focus or value.
+ * - `always` — the element always renders something of its own (a select's
+ *   option, a date input's format mask), so a resting label would collide
+ *   with it and the label stays floated.
+ * - `never` — the control carries its own labelling (checkbox, radio group),
+ *   so the wrapper keeps its label stacked above regardless of `appearance`.
+ */
+export type FloatBehavior = 'auto' | 'always' | 'never';
 
 /** A message for one validation error key: static text, or built from the error. */
 export type CoreErrorMessage = string | ((error: unknown) => string);

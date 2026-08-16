@@ -8,6 +8,9 @@ import {
 } from '@angular/core';
 import { CoreControl } from '../../forms/core-control';
 
+/** How `core-form-field` presents its label. */
+export type FieldAppearance = 'stacked' | 'float';
+
 /**
  * Labels a projected core form control and renders its hint and validation
  * error.
@@ -28,7 +31,12 @@ import { CoreControl } from '../../forms/core-control';
   selector: 'core-form-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="core-field" [class.invalid]="showError()">
+    <div
+      class="core-field"
+      [class.invalid]="showError()"
+      [class.floating]="floatingLabel()"
+      [class.floated]="isFloated()"
+    >
       @if (label()) {
         <label class="core-field-label" [attr.for]="controlId()">
           {{ label() }}
@@ -61,6 +69,13 @@ export class FormFieldComponent {
   readonly required = input<boolean | undefined>(undefined);
   /** Overrides the control's own error message. */
   readonly error = input('');
+  /**
+   * `stacked` (the default) puts the label above the control. `float` rests it
+   * inside the control and floats it to the top edge on focus or once there is
+   * a value — controls that label themselves (checkbox, radio group) stay
+   * stacked either way.
+   */
+  readonly appearance = input<FieldAppearance>('stacked');
 
   private readonly control = contentChild(CoreControl);
 
@@ -78,6 +93,23 @@ export class FormFieldComponent {
   protected readonly hintId = computed(() => `${this.controlId() ?? 'core-field'}-hint`);
   protected readonly errorId = computed(() => `${this.controlId() ?? 'core-field'}-error`);
 
+  /** Whether this field renders a floating label at all. */
+  protected readonly floatingLabel = computed(
+    () =>
+      this.appearance() === 'float' &&
+      !!this.label() &&
+      (this.control()?.floatBehavior() ?? 'auto') !== 'never',
+  );
+
+  /** Whether that label is currently lifted clear of the control. */
+  protected readonly isFloated = computed(() => {
+    const control = this.control();
+    if (!this.floatingLabel() || !control) {
+      return false;
+    }
+    return control.floatBehavior() === 'always' || control.focused() || control.hasValue();
+  });
+
   constructor() {
     // The hint and error live here, but the element they describe lives in the
     // projected control — so the ids have to be pushed back down to it.
@@ -88,6 +120,9 @@ export class FormFieldComponent {
       }
       const described = this.showError() ? this.errorId() : this.hint() ? this.hintId() : null;
       control.describedBy.set(described);
+      // The label is absolutely positioned over the control, which lives in a
+      // different style scope — so the control has to be told to reserve room.
+      control.floating.set(this.floatingLabel());
     });
   }
 }

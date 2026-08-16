@@ -4,6 +4,43 @@
   gap: 0.35rem;
 }
 
+// Floating label: the label is lifted out of flow and sits over the control,
+// which reserves top padding for it (see `field-chrome`'s `.float`).
+.core-field.floating {
+  position: relative;
+
+  .core-field-label {
+    color: var(--core-color-field-placeholder, #94a3b8);
+    font-size: 1rem;
+    font-weight: 400;
+    left: 0.7rem;
+    pointer-events: none;
+    position: absolute;
+    top: 1.15rem;
+    transition:
+      top 0.15s ease,
+      font-size 0.15s ease,
+      color 0.15s ease;
+  }
+
+  &.floated .core-field-label {
+    color: var(--core-color-text-muted, #64748b);
+    font-size: 0.72rem;
+    font-weight: 600;
+    top: 0.25rem;
+  }
+
+  &.invalid.floated .core-field-label {
+    color: var(--core-color-danger-text, #b91c1c);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .core-field.floating .core-field-label {
+    transition: none;
+  }
+}
+
 .core-field-label {
   color: var(--core-color-text, #0f172a);
   font-size: 0.9rem;

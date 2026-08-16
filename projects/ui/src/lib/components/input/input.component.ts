@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
-import { CoreControl } from '../../forms/core-control';
+import { CoreControl, FloatBehavior } from '../../forms/core-control';
 import { FormControlBase } from '../../forms/form-control-base';
 
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'date';
@@ -18,6 +18,7 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'date';
   template: `
     <input
       class="core-input"
+      [class.float]="floating()"
       [id]="controlId()"
       [type]="type()"
       [value]="displayValue()"
@@ -27,7 +28,8 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'date';
       [attr.aria-invalid]="showError() ? 'true' : null"
       [attr.aria-describedby]="describedBy()"
       (input)="onInput($event)"
-      (blur)="markTouched()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
     />
   `,
   styleUrl: './input.component.scss',
@@ -35,6 +37,12 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'date';
 export class InputComponent extends FormControlBase<string | number> {
   readonly type = input<InputType>('text');
   readonly placeholder = input('');
+
+  /** A date input always renders its own format mask, so a resting label
+   *  would sit on top of it. */
+  protected override floatMode(): FloatBehavior {
+    return this.type() === 'date' ? 'always' : 'auto';
+  }
 
   protected readonly displayValue = computed(() => {
     const value = this.value();
