@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
-import { CoreControl } from '../../forms/core-control';
+import { CoreControl, FloatBehavior } from '../../forms/core-control';
 import { FormControlBase } from '../../forms/form-control-base';
 import { CoreOption } from '../select/select.component';
 
@@ -31,7 +31,8 @@ import { CoreOption } from '../select/select.component';
             [checked]="option.value === value()"
             [disabled]="isDisabled() || (option.disabled ?? false)"
             (change)="select(option.value)"
-            (blur)="markTouched()"
+            (focus)="onFocus()"
+            (blur)="onBlur()"
           />
           <span>{{ option.label }}</span>
         </label>
@@ -43,6 +44,11 @@ import { CoreOption } from '../select/select.component';
 export class RadioGroupComponent<T> extends FormControlBase<T> {
   readonly options = input<readonly CoreOption<T>[]>([]);
   readonly orientation = input<'vertical' | 'horizontal'>('vertical');
+
+  /** The radios are always visible, and each carries its own label. */
+  protected override floatMode(): FloatBehavior {
+    return 'never';
+  }
 
   /** Radios only behave as one group if they share a `name`. */
   protected readonly groupName = computed(() => `${this.controlId()}-group`);

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
-import { CoreControl } from '../../forms/core-control';
+import { CoreControl, FloatBehavior } from '../../forms/core-control';
 import { FormControlBase } from '../../forms/form-control-base';
 
 /** One choice in a `core-select` or `core-radio-group`. */
@@ -23,13 +23,15 @@ export interface CoreOption<T> {
   template: `
     <select
       class="core-select"
+      [class.float]="floating()"
       [id]="controlId()"
       [disabled]="isDisabled()"
       [attr.required]="required() ? '' : null"
       [attr.aria-invalid]="showError() ? 'true' : null"
       [attr.aria-describedby]="describedBy()"
       (change)="onChangeEvent($event)"
-      (blur)="markTouched()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
     >
       @if (placeholder()) {
         <option value="" [selected]="selectedIndex() === null" disabled>{{ placeholder() }}</option>
@@ -57,6 +59,11 @@ export class SelectComponent<T> extends FormControlBase<T> {
     const index = this.options().findIndex((option) => option.value === current);
     return index === -1 ? null : index;
   });
+
+  /** A select always shows its selected option or placeholder. */
+  protected override floatMode(): FloatBehavior {
+    return 'always';
+  }
 
   protected onChangeEvent(event: Event): void {
     // An empty value means no option is selected (`selectedIndex === -1`), which

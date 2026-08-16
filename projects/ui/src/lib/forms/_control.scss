@@ -8,6 +8,14 @@
   padding: 0.5rem 0.65rem;
   width: 100%;
 
+  // Set by core-form-field when it renders a floating label: the label is
+  // absolutely positioned over this element, so the top padding is the room it
+  // lifts into. Keeps the same total height as the stacked label + control.
+  &.float {
+    padding-bottom: 0.3rem;
+    padding-top: 1.15rem;
+  }
+
   &::placeholder {
     color: var(--core-color-field-placeholder, #94a3b8);
   }

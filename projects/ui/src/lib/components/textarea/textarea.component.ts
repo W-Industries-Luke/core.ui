@@ -10,6 +10,7 @@ import { FormControlBase } from '../../forms/form-control-base';
   template: `
     <textarea
       class="core-textarea"
+      [class.float]="floating()"
       [id]="controlId()"
       [rows]="rows()"
       [value]="value() ?? ''"
@@ -19,7 +20,8 @@ import { FormControlBase } from '../../forms/form-control-base';
       [attr.aria-invalid]="showError() ? 'true' : null"
       [attr.aria-describedby]="describedBy()"
       (input)="onInput($event)"
-      (blur)="markTouched()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
     ></textarea>
   `,
   styleUrl: './textarea.component.scss',

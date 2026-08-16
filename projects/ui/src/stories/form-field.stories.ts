@@ -33,17 +33,39 @@ const meta: Meta<FormFieldComponent> = {
     hint: { control: 'text' },
     error: { control: 'text' },
     required: { control: 'boolean' },
+    appearance: { control: 'inline-radio', options: ['stacked', 'float'] },
   },
   parameters: {
     controls: {
-      exclude: ['controlId', 'isRequired', 'showError', 'errorMessage', 'hintId', 'errorId'],
+      exclude: [
+        'controlId',
+        'isRequired',
+        'showError',
+        'errorMessage',
+        'hintId',
+        'errorId',
+        'floatingLabel',
+        'isFloated',
+      ],
     },
   },
-  args: { label: 'Email', hint: 'We never share it.', error: '', required: undefined },
+  args: {
+    label: 'Email',
+    hint: 'We never share it.',
+    error: '',
+    required: undefined,
+    appearance: 'stacked',
+  },
   render: (args) => ({
     props: { ...args, control: new FormControl('', [Validators.required, Validators.email]) },
     template: `
-      <core-form-field [label]="label" [hint]="hint" [error]="error" [required]="required">
+      <core-form-field
+        [label]="label"
+        [hint]="hint"
+        [error]="error"
+        [required]="required"
+        [appearance]="appearance"
+      >
         <core-input type="email" [formControl]="control" />
       </core-form-field>
     `,
@@ -139,4 +161,80 @@ export const WholeForm: Story = {
       `,
     };
   },
+};
+
+/**
+ * `appearance="float"` rests the label inside the control and lifts it to the
+ * top edge on focus or once there is a value — click through the fields to see
+ * it. Controls that are always showing something of their own (select, date
+ * input) keep the label floated, and controls that label themselves (checkbox,
+ * radio group) stay stacked whatever the appearance.
+ */
+export const FloatingLabel: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    props: {
+      text: new FormControl(''),
+      filled: new FormControl('ada@example.com'),
+      date: new FormControl(''),
+      status: new FormControl<number | null>(null),
+      notes: new FormControl(''),
+      terms: new FormControl(false),
+      statuses: [
+        { label: 'Draft', value: 1 },
+        { label: 'Published', value: 2 },
+      ],
+    },
+    template: `
+      <div class="sb-stack" style="max-width: 24rem">
+        <core-form-field label="Email" appearance="float">
+          <core-input type="email" [formControl]="text" />
+        </core-form-field>
+
+        <core-form-field label="Email" appearance="float" hint="Starts floated: it has a value.">
+          <core-input type="email" [formControl]="filled" />
+        </core-form-field>
+
+        <core-form-field label="Starts on" appearance="float" hint="A date mask is always visible.">
+          <core-input type="date" [formControl]="date" />
+        </core-form-field>
+
+        <core-form-field label="Status" appearance="float">
+          <core-select [formControl]="status" [options]="statuses" placeholder="Choose one" />
+        </core-form-field>
+
+        <core-form-field label="Notes" appearance="float">
+          <core-textarea [formControl]="notes" [rows]="3" />
+        </core-form-field>
+
+        <core-form-field label="Terms" appearance="float" hint="A checkbox labels itself.">
+          <core-checkbox [formControl]="terms" label="I accept the terms" />
+        </core-form-field>
+      </div>
+    `,
+  }),
+};
+
+/** The same field in both appearances, for comparison. */
+export const AppearanceComparison: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    props: { stacked: new FormControl(''), floated: new FormControl('') },
+    template: `
+      <div class="sb-row" style="align-items: flex-start; gap: 2rem">
+        <div style="width: 16rem">
+          <div class="sb-label">stacked (default)</div>
+          <core-form-field label="Email" hint="We never share it.">
+            <core-input type="email" [formControl]="stacked" />
+          </core-form-field>
+        </div>
+        <div style="width: 16rem">
+          <div class="sb-label">float</div>
+          <core-form-field label="Email" appearance="float" hint="We never share it.">
+            <core-input type="email" [formControl]="floated" />
+          </core-form-field>
+        </div>
+      </div>
+    `,
+  }),
 };
