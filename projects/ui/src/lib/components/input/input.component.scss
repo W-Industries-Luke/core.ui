@@ -1,0 +1,5 @@
+@use '../../forms/control';
+
+.core-input {
+  @include control.field-chrome;
+}

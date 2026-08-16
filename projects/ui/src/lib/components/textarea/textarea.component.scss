@@ -1,0 +1,8 @@
+@use '../../forms/control';
+
+.core-textarea {
+  @include control.field-chrome;
+
+  display: block;
+  resize: vertical;
+}

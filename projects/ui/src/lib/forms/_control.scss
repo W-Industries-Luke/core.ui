@@ -1,0 +1,56 @@
+// Chrome shared by the text-entry controls (input, textarea, select).
+@mixin field-chrome {
+  background: var(--core-color-field-bg, #fff);
+  border: 1px solid var(--core-color-border, #cbd5e1);
+  border-radius: var(--core-radius-sm, 6px);
+  color: var(--core-color-text, #0f172a);
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  width: 100%;
+
+  &::placeholder {
+    color: var(--core-color-field-placeholder, #94a3b8);
+  }
+
+  &:focus-visible {
+    border-color: var(--core-color-primary, #2563eb);
+    outline: 2px solid var(--core-color-focus-ring, #bfdbfe);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    background: var(--core-color-field-disabled-bg, #f1f5f9);
+    color: var(--core-color-text-muted, #64748b);
+    cursor: not-allowed;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--core-color-danger, #dc2626);
+  }
+}
+
+// Chrome shared by the boolean controls (checkbox, radio).
+@mixin choice-row {
+  align-items: center;
+  color: var(--core-color-text, #0f172a);
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    accent-color: var(--core-color-primary, #2563eb);
+    cursor: inherit;
+    margin: 0;
+  }
+
+  &:has(input:disabled) {
+    color: var(--core-color-text-muted, #64748b);
+    cursor: not-allowed;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--core-color-focus-ring, #bfdbfe);
+    outline-offset: 2px;
+    border-radius: var(--core-radius-sm, 6px);
+  }
+}
