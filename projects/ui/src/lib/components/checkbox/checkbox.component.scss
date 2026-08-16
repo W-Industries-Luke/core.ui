@@ -1,0 +1,7 @@
+@use '../../forms/control';
+
+.core-checkbox {
+  @include control.choice-row;
+
+  width: fit-content;
+}

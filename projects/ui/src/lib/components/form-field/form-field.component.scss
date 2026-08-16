@@ -1,0 +1,30 @@
+.core-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.core-field-label {
+  color: var(--core-color-text, #0f172a);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.core-field-required {
+  color: var(--core-color-danger-text, #b91c1c);
+  margin-left: 0.15rem;
+}
+
+.core-field-hint,
+.core-field-error {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.core-field-hint {
+  color: var(--core-color-text-muted, #64748b);
+}
+
+.core-field-error {
+  color: var(--core-color-danger-text, #b91c1c);
+}

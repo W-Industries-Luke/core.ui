@@ -1,0 +1,8 @@
+@use '../../forms/control';
+
+.core-select {
+  @include control.field-chrome;
+
+  appearance: auto;
+  display: block;
+}
